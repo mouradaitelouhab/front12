@@ -1,0 +1,18 @@
+nohup: ignoring input
+
+> almas-dimas-frontend@0.0.0 dev
+> vite
+
+WebSocket server error: Port is already in use
+Port 3000 is in use, trying another one...
+WebSocket server error: Port is already in use
+Port 3001 is in use, trying another one...
+WebSocket server error: Port is already in use
+
+  VITE v5.4.19  ready in 249 ms
+
+  6:46:34 AM [vite] hmr update /src/index.css, /src/contexts/CartContext.jsx, /sr6:46:34 AM [vite] hmr update /src/contexts/CartContext.jsx, /src/i6:46:48 AM [vite] hmr update /src/index.css, /src/contexts/CartContext.jsx, /sr6:46:48 AM [vite] hmr update /src/contexts/CartContext.jsx, /src/i6:48:12 AM [vite] hmr update /src/App.jsx, /src/index.css
+6:49:40 AM [vite] hmr update /src/App.jsx, /src/index.css
+6:58:08 AM [vite] hmr update /src/App.jsx, /src/index.css
+.jsx, /src/index.css
+6:58:08 AM [vite] hmr update /src/App.jsx, /src/index.css
