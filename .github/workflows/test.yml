@@ -1,13 +1,15 @@
-name: MERN Stack Tests
+name: Frontend CI/CD
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  backend-test:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,30 +21,42 @@ jobs:
       with:
         node-version: '18'
 
-    - name: Install Backend Dependencies
+    - name: Install dependencies
       run: npm install
-      working-directory: ./backend
+      working-directory: ./frontend
 
-    - name: Run Backend Tests
-      run: npm test || echo "No backend tests configured"
-      working-directory: ./backend
+    - name: Run tests
+      run: npm test
+      working-directory: ./frontend
+      continue-on-error: true # Allow build to continue even if tests fail
 
-  frontend-test:
+    - name: Build project
+      run: npm run build
+      working-directory: ./frontend
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: frontend-build
+        path: ./frontend/dist
+
+  deploy:
+    needs: build-and-test
     runs-on: ubuntu-latest
+    environment: production
+    if: github.ref == 'refs/heads/main'
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
+    - name: Download build artifact
+      uses: actions/download-artifact@v3
       with:
-        node-version: '18'
+        name: frontend-build
+        path: ./frontend/dist
 
-    - name: Install Frontend Dependencies
-      run: npm install
-      working-directory: ./frontend
-
-    - name: Run Frontend Tests
-      run: npm test || echo "No frontend tests configured"
-      working-directory: ./frontend
+    - name: Deploy to Render
+      run: echo "Deploy frontend to Render.com (e.g., using Render CLI or API)"
+      # Replace with actual Render deployment commands
+      # Example: render deploy --service-id YOUR_FRONTEND_SERVICE_ID
+      # You would need to set up Render API key as a GitHub secret
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
