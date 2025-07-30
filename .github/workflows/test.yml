@@ -1,4 +1,4 @@
-name: Frontend CI/CD
+name: Frontend CI/CD (Simple Test)
 
 on:
   push:
@@ -28,35 +28,7 @@ jobs:
     - name: Run tests
       run: npm test
       working-directory: ./frontend
-      continue-on-error: true # Allow build to continue even if tests fail
 
     - name: Build project
       run: npm run build
       working-directory: ./frontend
-
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: frontend-build
-        path: ./frontend/dist
-
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    environment: production
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-    - name: Download build artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: frontend-build
-        path: ./frontend/dist
-
-    - name: Deploy to Render
-      run: echo "Deploy frontend to Render.com (e.g., using Render CLI or API)"
-      # Replace with actual Render deployment commands
-      # Example: render deploy --service-id YOUR_FRONTEND_SERVICE_ID
-      # You would need to set up Render API key as a GitHub secret
-      env:
-        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
